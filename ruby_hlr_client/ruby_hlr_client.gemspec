@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.email       = ['service@hlr-lookups.com']
   s.homepage    = 'http://www.hlr-lookups.com'
   s.summary     = %q{Official HLR Lookup API Ruby SDK by www.hlr-lookups.com}
+  s.licenses    = ['Apache-2.0']
+
 
   s.add_dependency 'sinatra'
   s.add_dependency 'rest_client'
