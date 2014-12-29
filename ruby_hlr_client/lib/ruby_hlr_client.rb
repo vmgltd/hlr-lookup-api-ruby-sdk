@@ -1,0 +1,3 @@
+module RubyHlrClient
+  # Your code goes here...
+end
