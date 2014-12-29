@@ -26,6 +26,7 @@ print "\n\n"
 # Sets the callback URL for asynchronous lookups. Read more about the concept of asynchronous HLR lookups @ http://www.hlr-lookups.com/en/asynchronous-hlr-lookup-api
 # @param url - callback url on your server
 # @returns string (JSON)
+#
 # Return example: {"success":true,"messages":[],"results":{"url":"http:\/\/user:pass@www.your-server.com\/path\/file"}}
 print client.set_async_callback_url('http://user:pass@www.your-server.com/path/file')
 print "\n\n"
@@ -42,6 +43,7 @@ print "\n\n"
 
 # Returns the remaining balance (EUR) in your account.
 # @returns string (JSON)
+#
 # Return example: {"success":true,"messages":[],"results":{"balance":"5878.24600"}}
 print client.get_balance
 print "\n"
