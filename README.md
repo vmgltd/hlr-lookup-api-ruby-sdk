@@ -99,7 +99,7 @@ The code contains annotations and you can find usage examples as tests in `tests
 * `bin/test_client.rb`
 * `bin/test_callback_handler.rb`
 
-Please refer to https://www.hlr-lookups.com/en/sdks/ruby for further documentation or send us an email to service@hlr-lookups.com.
+Please refer to https://www.hlr-lookups.com/en/sdk-ruby for further documentation or send us an email to service@hlr-lookups.com.
 
 Support and Feedback
 --------------------
