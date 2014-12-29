@@ -1,0 +1,2 @@
+1. rake install
+2. cd pkg/; gem push ruby_hlr_client-VERSION.gem
