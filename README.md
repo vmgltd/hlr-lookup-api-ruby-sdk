@@ -49,7 +49,7 @@ print client.submit_sync_lookup_request('+491788735000', 'IP4', 'SDK-TEST')
 # Return example: {"success":true,"messages":[],"results":{"url":"http:\/\/user:pass@www.your-server.com\/path\/file"}}
 print client.set_async_callback_url('http://user:pass@www.your-server.com/path/file')
 
-# Submits asynchronous HLR Lookups containing up to 1,000 MSISDNs per request. Results are sent back asynchronously to a callback URL on your server. Use \VmgLtd\HlrCallbackHandler to capture them.
+# Submits asynchronous HLR Lookups containing up to 1,000 MSISDNs per request. Results are sent back asynchronously to a callback URL on your server.
 # @param msisdns - A list of MSISDNs in international format, e.g. +491788735000
 # @param route - An optional route assignment, see: http://www.hlr-lookups.com/en/routing-options
 # @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
