@@ -1,4 +1,5 @@
 require 'rest_client'
+require 'json'
 
 module RubyHlrClient
 
@@ -101,9 +102,14 @@ module RubyHlrClient
 
     end
 
-    def send_request(params)
+    private
+    def send_request(query)
 
-      response = RestClient.get @url, :params => params
+      begin
+        response = RestClient.get @url, :params => query
+      rescue => e
+        return generate_error_result("HTTP Status Code #{e.message}")
+      end
 
       unless response.code == 200
         return generate_error_result("HTTP Status Code #{response.code}")
@@ -113,6 +119,7 @@ module RubyHlrClient
 
     end
 
+    private
     def generate_error_result(message)
 
       {:success => false, :fieldErrors => [], :globalErrors => ["#{message}"]}.to_json
