@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://www.hlr-lookups.com'
   s.summary     = %q{Official HLR Lookup API Ruby SDK by www.hlr-lookups.com}
   s.licenses    = ['Apache-2.0']
-
+  s.required_ruby_version = '>= 2.0.0'
 
   s.add_dependency 'sinatra'
   s.add_dependency 'rest_client'

@@ -51,7 +51,7 @@ module RubyHlrClient
     # @returns string (JSON)
     #
     # Return example: { "success":true, "results":[ { "id":"2ed0788379c6", "number":"+4989702626", "numbertype":"LANDLINE", "state":"COMPLETED", "isvalid":"Yes", "ispossiblyported":"No", "isvalidshortnumber":"No", "isvanitynumber":"No", "qualifiesforhlrlookup":"No", "originalcarrier":null, "mccmnc":null, "mcc":null, "mnc":null, "countrycode":"DE", "region":"Munich", "timezones":[ "Europe\/Berlin" ], "infotext":"This is a landline number.", "usercharge":"0.0050", "inserttime":"2015-12-04 10:36:41.866283+00", "storage":"SYNC-API-NT-2015-12", "route":"LC1" } ] }
-    def submit_sync_lookup_request(number, route = nil, storage = nil)
+    def submit_sync_number_type_lookup_request(number, route = nil, storage = nil)
 
       params = {
         :action => 'submitSyncLookupRequest',
@@ -107,7 +107,7 @@ module RubyHlrClient
     # @returns string (JSON)
     #
     # Return example: { "success":true, "messages":[], "results":{ "acceptedNumbers":[ { "id":"f09b30014d5e", "number":"+4989702626" }, { "id":"364c0ad33c02", "number":"+491788735000" } ], "rejectedNumbers":[ { "id":null, "number":"asdf" } ], "acceptedNumberCount":2, "rejectedNumberCount":1, "totalCount":3, "charge":0.01, "storage":"ASYNC-API-NT-2015-12", "route":"LC1" } }
-    def submit_async_number_type_lookup_request(msisdns, route = nil, storage = nil)
+    def submit_async_number_type_lookup_request(numbers, route = nil, storage = nil)
 
       params = {
           :action => 'submitAsyncNumberTypeLookupRequest',
