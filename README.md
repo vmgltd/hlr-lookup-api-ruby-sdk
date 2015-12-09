@@ -5,7 +5,7 @@ Official HLR Lookup API Ruby SDK by www.hlr-lookups.com
 
 This SDK implements the REST API documented at https://www.hlr-lookups.com/en/api-docs
 
-For SDKs in different languages, see https://www.hlr-lookups.com/en/sdks
+For SDKs in other programming languages, see https://www.hlr-lookups.com/en/sdks
 
 Requirements
 ------------
@@ -39,7 +39,7 @@ client = RubyHlrClient::HlrClient.new(
 # @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
 # @returns string (JSON)
 #
-# Return example: {"success":true,"results":[{"id":"e1fdf26531e4","msisdncountrycode":"DE","msisdn":"+491788735000","statuscode":"HLRSTATUS_DELIVERED","hlrerrorcodeid":null,"subscriberstatus":"SUBSCRIBERSTATUS_CONNECTED","imsi":"262031300000000","mccmnc":"26203","mcc":"262","mnc":"03","msin":"1300000000","servingmsc":"140445","servinghlr":null,"originalnetworkname":"E-Plus","originalcountryname":"Germany","originalcountrycode":"DE","originalcountryprefix":"+49","originalnetworkprefix":"178","roamingnetworkname":"Fixed Line Operators and Other Networks","roamingcountryname":"United States","roamingcountrycode":"US","roamingcountryprefix":"+1","roamingnetworkprefix":"404455","portednetworkname":null,"portedcountryname":null,"portedcountrycode":null,"portedcountryprefix":null,"portednetworkprefix":null,"isvalid":"Yes","isroaming":"Yes","isported":"No","usercharge":"0.0100","inserttime":"2014-12-28 06:22:00.328844+08","storage":"SDK-TEST-SYNC-API","route":"IP1"}]}
+# Return example: {"success":true,"results":[{"id":"e1fdf26531e4","msisdncountrycode":"DE","msisdn":"+491788735000","statuscode":"HLRSTATUS_DELIVERED","hlrerrorcodeid":null,"subscriberstatus":"SUBSCRIBERSTATUS_CONNECTED","imsi":"262031300000000","mccmnc":"26203","mcc":"262","mnc":"03","msin":"1300000000","servingmsc":"140445","servinghlr":null,"originalnetworkname":"E-Plus","originalcountryname":"Germany","originalcountrycode":"DE","originalcountryprefix":"+49","originalnetworkprefix":"178","roamingnetworkname":"Fixed Line Operators and Other Networks","roamingcountryname":"United States","roamingcountrycode":"US","roamingcountryprefix":"+1","roamingnetworkprefix":"404455","portednetworkname":null,"portedcountryname":null,"portedcountrycode":null,"portedcountryprefix":null,"portednetworkprefix":null,"isvalid":"Yes","isroaming":"Yes","isported":"No","usercharge":"0.0100","inserttime":"2014-12-28 06:22:00.328844+08","storage":"SDK-TEST-SYNC-API","route":"IP1","interface":"Sync API"}]}
 print client.submit_sync_lookup_request('+491788735000', 'IP4', 'SDK-TEST')
 
 # Submits a synchronous number type lookup request. Results are presented in the response body.
@@ -48,7 +48,7 @@ print client.submit_sync_lookup_request('+491788735000', 'IP4', 'SDK-TEST')
 # @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
 # @returns string (JSON)
 #
-# Return example: { "success":true, "results":[ { "id":"2ed0788379c6", "number":"+4989702626", "numbertype":"LANDLINE", "state":"COMPLETED", "isvalid":"Yes", "ispossiblyported":"No", "isvalidshortnumber":"No", "isvanitynumber":"No", "qualifiesforhlrlookup":"No", "originalcarrier":null, "mccmnc":null, "mcc":null, "mnc":null, "countrycode":"DE", "region":"Munich", "timezones":[ "Europe\/Berlin" ], "infotext":"This is a landline number.", "usercharge":"0.0050", "inserttime":"2015-12-04 10:36:41.866283+00", "storage":"SYNC-API-NT-2015-12", "route":"LC1" } ] }
+# Return example: {"success":true,"results":[{"id":"2ed0788379c6","number":"+4989702626","numbertype":"LANDLINE","state":"COMPLETED","isvalid":"Yes","invalidreason":null,"ispossiblyported":"No","isvanitynumber":"No","qualifiesforhlrlookup":"No","originalcarrier":null,"mccmnc":null,"mcc":null,"mnc":null,"countrycode":"DE","regions":["Munich"],"timezones":["Europe\/Berlin"],"infotext":"This is a landline number.","usercharge":"0.0050","inserttime":"2015-12-04 10:36:41.866283+00","storage":"SYNC-API-NT-2015-12","route":"LC1","interface":"Sync API"}]}
 print client.submit_sync_number_type_lookup_request('+4989702626', 'LC1', 'SDK-TEST')
 
 # Sets the callback URL for asynchronous lookups. Read more about the concept of asynchronous HLR lookups @ http://www.hlr-lookups.com/en/asynchronous-hlr-lookup-api
