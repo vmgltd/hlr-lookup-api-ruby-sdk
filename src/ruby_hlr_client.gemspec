@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
   s.add_dependency 'sinatra'
-  s.add_dependency 'rest_client'
+  s.add_dependency 'rest-client'
   s.add_dependency 'json'
 
   s.rubyforge_project = 'ruby_hlr_client'

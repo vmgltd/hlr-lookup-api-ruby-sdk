@@ -9,7 +9,7 @@ For SDKs in other programming languages, see https://www.hlr-lookups.com/en/sdks
 
 Requirements
 ------------
-* rest_client
+* rest-client
 * json
 * sinatra
 
