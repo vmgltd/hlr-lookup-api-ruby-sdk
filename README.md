@@ -10,7 +10,7 @@ Requirements
 ------------
 * Ruby >= 2.0.0
 * rest-client >= 2.1.0
-* json >= 1.8.3
+* json >= 2.3.0
 
 Installation with gem
 ---------------------
