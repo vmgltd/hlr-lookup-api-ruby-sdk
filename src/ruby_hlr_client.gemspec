@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
   s.add_runtime_dependency 'rest-client', '~> 2.1', '>= 2.1.0'
-  s.add_runtime_dependency 'json', '~> 1.8', '>= 1.8.3'
+  s.add_runtime_dependency 'json', '~> 2.3', '>= 2.3.0'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
