@@ -29,7 +29,7 @@ print "HLR Lookup Response Body: " + response.body + "\n"
 
 if response.code != 200
   # something went wrong
-  print "Received non-OK status code from server."
+  print "Received non-OK status code from server." + "\n"
 end
 
 # do something with the HLR data
@@ -43,7 +43,7 @@ print "NT Lookup Response Body: " + response.body + "\n"
 
 if response.code != 200
   # something went wrong
-  print "Received non-OK status code from server."
+  print "Received non-OK status code from server." + "\n"
 end
 
 # do something with the NT data
@@ -57,7 +57,7 @@ print "MNP Lookup Response Body: " + response.body + "\n"
 
 if response.code != 200
   # something went wrong
-  print "Received non-OK status code from server."
+  print "Received non-OK status code from server." + "\n"
 end
 
 # do something with the NT data
