@@ -1,140 +1,209 @@
-hlr-lookup-api-ruby-sdk
-=======================
+# HLR Lookups SDK (Ruby)
 
-Official HLR Lookup API Ruby SDK by www.hlr-lookups.com
+Official HLR Lookup API SDK for Ruby by www.hlr-lookups.com. Obtain live mobile phone connectivity and portability data from network operators directly.
 
-This SDK implements the REST API documented at https://www.hlr-lookups.com/en/api-docs
+This SDK implements the REST API documented at https://www.hlr-lookups.com/en/api-docs and includes an [HLR API](https://www.hlr-lookups.com/en/api-docs#post-hlr-lookup) (live connectivity), [NT API](https://www.hlr-lookups.com/en/api-docs#post-nt-lookup) (number types), as well as an [MNP API](https://www.hlr-lookups.com/en/api-docs#post-mnp-lookup) (mobile number portability).
 
-For SDKs in other programming languages, see https://www.hlr-lookups.com/en/sdks
+For SDKs in different programming languages, see https://www.hlr-lookups.com/en/api-docs#sdks
 
 Requirements
 ------------
-* rest-client
-* json
-* sinatra
+* Ruby >= 2.0.0
+* rest-client >= 2.1.0
+* json >= 1.8.3
 
 Installation with gem
 ---------------------
-```bash
-gem install ruby_hlr_client
-```
+`gem install ruby_hlr_client`
 
 **Usage Client**
 ```ruby
-require 'ruby_hlr_client/hlr_client'
+require 'ruby_hlr_client/client'
 
-# Initializes the HLR Lookup Client
-# @param username - www.hlr-lookups.com username
-# @param password - www.hlr-lookups.com password
-# @param ssl - set to false to disable SSL
-# @constructor
-client = RubyHlrClient::HlrClient.new(
-    'username',
-    'password'
+client = HlrLookupsSDK::Client.new(
+    'YOUR-API-KEY',
+    'YOUR-API-SECRET',
+    '/var/log/hlr-lookups-api.log' # an optional log file location
 )
-
-# Submits a synchronous HLR Lookup request. The HLR is queried in real time and results presented in the response body.
-# @param msisdn - An MSISDN in international format, e.g. +491788735000
-# @param route - An optional route assignment, see: http://www.hlr-lookups.com/en/routing-options
-# @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
-# @returns string (JSON)
-#
-# Return example: {"success":true,"results":[{"id":"e1fdf26531e4","msisdncountrycode":"DE","msisdn":"+491788735000","statuscode":"HLRSTATUS_DELIVERED","hlrerrorcodeid":null,"subscriberstatus":"SUBSCRIBERSTATUS_CONNECTED","imsi":"262031300000000","mccmnc":"26203","mcc":"262","mnc":"03","msin":"1300000000","servingmsc":"140445","servinghlr":null,"originalnetworkname":"E-Plus","originalcountryname":"Germany","originalcountrycode":"DE","originalcountryprefix":"+49","originalnetworkprefix":"178","roamingnetworkname":"Fixed Line Operators and Other Networks","roamingcountryname":"United States","roamingcountrycode":"US","roamingcountryprefix":"+1","roamingnetworkprefix":"404455","portednetworkname":null,"portedcountryname":null,"portedcountrycode":null,"portedcountryprefix":null,"portednetworkprefix":null,"isvalid":"Yes","isroaming":"Yes","isported":"No","usercharge":"0.0100","inserttime":"2014-12-28 06:22:00.328844+08","storage":"SDK-TEST-SYNC-API","route":"IP1","interface":"Sync API"}]}
-print client.submit_sync_lookup_request('+491788735000', 'IP4', 'SDK-TEST')
-
-# Submits a synchronous number type lookup request. Results are presented in the response body.
-# @param number - An number in international format, e.g. +4989702626
-# @param route - An optional route assignment, see: http://www.hlr-lookups.com/en/routing-options
-# @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
-# @returns string (JSON)
-#
-# Return example: {"success":true,"results":[{"id":"2ed0788379c6","number":"+4989702626","numbertype":"LANDLINE","state":"COMPLETED","isvalid":"Yes","invalidreason":null,"ispossiblyported":"No","isvanitynumber":"No","qualifiesforhlrlookup":"No","originalcarrier":null,"mccmnc":null,"mcc":null,"mnc":null,"countrycode":"DE","regions":["Munich"],"timezones":["Europe\/Berlin"],"infotext":"This is a landline number.","usercharge":"0.0050","inserttime":"2015-12-04 10:36:41.866283+00","storage":"SYNC-API-NT-2015-12","route":"LC1","interface":"Sync API"}]}
-print client.submit_sync_number_type_lookup_request('+4989702626', 'LC1', 'SDK-TEST')
-
-# Sets the callback URL for asynchronous lookups. Read more about the concept of asynchronous HLR lookups @ http://www.hlr-lookups.com/en/asynchronous-hlr-lookup-api
-# @param url - callback url on your server
-# @returns string (JSON)
-#
-# Return example: {"success":true,"messages":[],"results":{"url":"http:\/\/user:pass@www.your-server.com\/path\/file"}}
-print client.set_async_callback_url('http://user:pass@www.your-server.com/path/file')
-
-# Sets the callback URL for asynchronous number type lookups.
-# @param url - callback url on your server
-# @returns string (JSON)
-#
-# Return example: {"success":true,"messages":[],"results":{"url":"http:\/\/user:pass@www.your-server.com\/path\/file"}}
-print client.set_nt_async_callback_url('http://user:pass@www.your-server.com/path/file')
-
-# Submits asynchronous HLR Lookups containing up to 1,000 MSISDNs per request. Results are sent back asynchronously to a callback URL on your server.
-# @param msisdns - A list of MSISDNs in international format, e.g. +491788735000
-# @param route - An optional route assignment, see: http://www.hlr-lookups.com/en/routing-options
-# @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
-# @returns string (JSON)
-#
-# Return example: {"success":true,"messages":[],"results":{"acceptedMsisdns":[{"id":"e489a092eba7","msisdn":"+491788735000"},{"id":"23ad48bf0c26","msisdn":"+491788735001"}],"rejectedMsisdns":[],"acceptedMsisdnCount":2,"rejectedMsisdnCount":0,"totalCount":2,"charge":0.02,"storage":"SDK-TEST-ASYNC-API","route":"IP4"}}
-print client.submit_async_lookup_request(['+491788735000', '+491788735001'])
-
-# Submits asynchronous number type lookups containing up to 1,000 numbers per request. Results are sent back asynchronously to a callback URL on your server.
-# @param numbers - A list of numbers in international format, e.g. +4989702626,+491788735000
-# @param route - An optional route assignment, see: http://www.hlr-lookups.com/en/routing-options
-# @param storage - An optional storage assignment, see: http://www.hlr-lookups.com/en/storages
-# @returns string (JSON)
-#
-# Return example: { "success":true, "messages":[], "results":{ "acceptedNumbers":[ { "id":"f09b30014d5e", "number":"+4989702626" }, { "id":"364c0ad33c02", "number":"+491788735000" } ], "rejectedNumbers":[ { "id":null, "number":"asdf" } ], "acceptedNumberCount":2, "rejectedNumberCount":1, "totalCount":3, "charge":0.01, "storage":"ASYNC-API-NT-2015-12", "route":"LC1" } }
-print client.submit_async_number_type_lookup_request(['+4989702626','+491788735000'])
-
-# Returns the remaining balance (EUR) in your account.
-# @returns string (JSON)
-#
-# Return example: {"success":true,"messages":[],"results":{"balance":"5878.24600"}}
-print client.get_balance
-
-# Performs a health check on the system status, the user account and availability of each route.
-# @returns string (JSON)
-#
-# Return example: { "success":true, "results":{ "system":{ "state":"up" }, "routes":{ "states":{ "IP1":"up", "ST2":"up", "SV3":"up", "IP4":"up", "XT5":"up", "XT6":"up", "NT7":"up", "LC1":"up" } }, "account":{ "lookupsPermitted":true, "balance":"295.23000" } } }
-print client.do_health_check    
 ```
+Get your API key and secret [here](https://www.hlr-lookups.com/en/api-settings).
 
-**Usage Callback Handler**
+## Examples
+
+**Test Authentication** (https://www.hlr-lookups.com/en/api-docs#get-auth-test)
+
+Performs an authenticated request against the `GET /auth-test` endpoint. A status code of 200 indicates that you were able to authenticate using you [API credentials](https://www.hlr-lookups.com/en/api-settings#authSettings).
+
 ```ruby
-require 'sinatra'
-require 'ruby_hlr_client/hlr_callback_handler'
-
-set :run, true
-
-get '/' do
-
-  client = RubyHlrClient::HlrCallbackHandler.new
-
-  # Parses an asynchronous HLR Lookup callback and returns a JSON string with the results.
-  # @param params
-  # @returns string (JSON)
-  #
-  # Return example: {"success":true,"results":[{"id":"40ebb8d9e7cc","msisdncountrycode":"DE","msisdn":"+491788735001","statuscode":"HLRSTATUS_DELIVERED","hlrerrorcodeid":null,"subscriberstatus":"SUBSCRIBERSTATUS_CONNECTED","imsi":"262032000000000","mccmnc":"26203","mcc":"262","mnc":"03","msin":"2000000000","servingmsc":"491770","servinghlr":null,"originalnetworkname":"178","originalcountryname":"Germany","originalcountrycode":"DE","originalcountryprefix":"+49","originalnetworkprefix":"178","roamingnetworkname":null,"roamingcountryname":null,"roamingcountrycode":null,"roamingcountryprefix":null,"roamingnetworkprefix":null,"portednetworkname":null,"portedcountryname":null,"portedcountrycode":null,"portedcountryprefix":null,"portednetworkprefix":null,"isvalid":"Yes","isroaming":"No","isported":"No","usercharge":"0.0100","inserttime":"2014-12-28 05:53:03.765798+08","storage":"ASYNC-API","route":"IP4"}]}
-  print client.parse_callback(params)
-
-  # send HTTP response body (OK)
-  content_type :text
-  return client.send_response
-
-end
+response = client.post('/auth-test')
+print "Status Code: " + response.code.to_s + "\n"
+print "Response Body: " + response.body + "\n"
 ```
 
-With that you should be ready to go!
+Get your API key and secret [here](https://www.hlr-lookups.com/en/api-settings).
 
-Tests
------
+**Submitting an HLR Lookup** ([HLR API Docs](https://www.hlr-lookups.com/en/api-docs#post-hlr-lookup))
 
-The code contains annotations and you can find usage examples as tests in `tests/`:
-* `bin/test_client.rb`
-* `bin/test_callback_handler.rb`
+```ruby
+response = client.post('/hlr-lookup', msisdn: '+905536939460')
 
-Please refer to https://www.hlr-lookups.com/en/sdk-ruby for further documentation or send us an email to service@hlr-lookups.com.
+print "HLR Lookup Status Code: " + response.code.to_s + "\n"
+print "HLR Lookup Response Body: " + response.body + "\n"
+
+if response.code != 200
+  # something went wrong
+  print "Received non-OK status code from server."
+end
+
+# do something with the HLR data
+data = JSON.parse(response.body)
+```
+
+The HLR API Response Object:
+
+```json
+{
+   "id":"f94ef092cb53",
+   "msisdn":"+14156226819",
+   "connectivity_status":"CONNECTED",
+   "mccmnc":"310260",
+   "mcc":"310",
+   "mnc":"260",
+   "imsi":"***************",
+   "msin":"**********",
+   "msc":"************",
+   "original_network_name":"Verizon Wireless",
+   "original_country_name":"United States",
+   "original_country_code":"US",
+   "original_country_prefix":"+1",
+   "is_ported":true,
+   "ported_network_name":"T-Mobile US",
+   "ported_country_name":"United States",
+   "ported_country_code":"US",
+   "ported_country_prefix":"+1",
+   "is_roaming":false,
+   "roaming_network_name":null,
+   "roaming_country_name":null,
+   "roaming_country_code":null,
+   "roaming_country_prefix":null,
+   "cost":"0.0100",
+   "timestamp":"2020-08-07 19:16:17.676+0300",
+   "storage":"SYNC-API-2020-08",
+   "route":"IP1",
+   "processing_status":"COMPLETED",
+   "error_code":null,
+   "data_source":"LIVE_HLR"
+}
+```
+
+A detailed documentation of the attributes and connectivity statuses in the HLR API response is [here](https://www.hlr-lookups.com/en/api-docs#post-hlr-lookup).
+
+**Submitting a Number Type (NT) Lookup** ([NT API Docs](https://www.hlr-lookups.com/en/api-docs#post-nt-lookup))
+
+```ruby
+response = client.post('/nt-lookup', number: '+905536939460')
+
+print "NT Lookup Status Code: " + response.code.to_s + "\n"
+print "NT Lookup Response Body: " + response.body + "\n"
+
+if response.code != 200
+  # something went wrong
+  print "Received non-OK status code from server."
+end
+
+# do something with the NT data
+data = JSON.parse(response.body)
+```
+
+The NT API Response Object:
+
+```json
+{
+     "id":"2ed0788379c6",
+     "number":"+4989702626",
+     "number_type":"LANDLINE",
+     "query_status":"OK",
+     "is_valid":true,
+     "invalid_reason":null,
+     "is_possibly_ported":false,
+     "is_vanity_number":false,
+     "qualifies_for_hlr_lookup":false,
+     "mccmnc":null,
+     "mcc":null,
+     "mnc":null,
+     "original_network_name":null,
+     "original_country_name":"Germany",
+     "original_country_code":"DE",
+     "regions":[
+        "Munich"
+     ],
+     "timezones":[
+        "Europe/Berlin"
+     ],
+     "info_text":"This is a landline number.",
+     "cost":"0.0050",
+     "timestamp":"2015-12-04 10:36:41.866283+00",
+     "storage":"SYNC-API-NT-2015-12",
+     "route":"LC1"
+}
+```
+
+A detailed documentation of the attributes and connectivity statuses in the NT API response is [here](https://www.hlr-lookups.com/en/api-docs#post-nt-lookup).
+
+**Submitting an MNP Lookup (Mobile Number Portability)** ([MNP API Docs](https://www.hlr-lookups.com/en/api-docs#post-mnp-lookup))
+
+```ruby
+response = client.post('/mnp-lookup', msisdn: '+905536939460')
+
+print "MNP Lookup Status Code: " + response.code.to_s + "\n"
+print "MNP Lookup Response Body: " + response.body + "\n"
+
+if response.code != 200
+  # something went wrong
+  print "Received non-OK status code from server."
+end
+
+# do something with the NT data
+data = JSON.parse(response.body)
+```
+
+The MNP API Response Object:
+
+```json
+{
+   "id":"e428acb1c0ae",
+   "msisdn":"+14156226819",
+   "query_status":"OK",
+   "mccmnc":"310260",
+   "mcc":"310",
+   "mnc":"260",
+   "is_ported":true,
+   "original_network_name":"Verizon Wireless:6006 - SVR/2",
+   "original_country_name":"United States",
+   "original_country_code":"US",
+   "original_country_prefix":"+1415",
+   "ported_network_name":"T-Mobile US:6529 - SVR/2",
+   "ported_country_name":"United States",
+   "ported_country_code":"US",
+   "ported_country_prefix":"+1",
+   "extra":"LRN:4154250000",
+   "cost":"0.0050",
+   "timestamp":"2020-08-05 21:21:33.490+0300",
+   "storage":"WEB-CLIENT-SOLO-MNP-2020-08",
+   "route":"PTX",
+   "error_code":null
+}
+```
+
+A detailed documentation of the attributes and connectivity statuses in the MNP API response is [here](https://www.hlr-lookups.com/en/api-docs#post-mnp-lookup).
+
+API Documentation
+-----------------
+Please inspect https://www.hlr-lookups.com/en/api-docs for detailed API documentation or email us at service@hlr-lookups.com.
 
 Support and Feedback
 --------------------
-Your feedback is appreciated! If you have specific problems or bugs with this SDK, please file an issue on Github. For general feedback and support requests, send an email to service@hlr-lookups.com.
+We appreciate your feedback! If you have specific problems or bugs with this SDK, please file an issue on Github. For general feedback and support requests, email us at service@hlr-lookups.com.
 
 Contributing
 ------------
@@ -144,4 +213,3 @@ Contributing
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
-

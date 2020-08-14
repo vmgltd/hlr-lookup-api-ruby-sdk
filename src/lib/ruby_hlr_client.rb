@@ -1,3 +1,3 @@
-module RubyHlrClient
+module HlrLookupsSDK
   # Your code goes here...
 end
