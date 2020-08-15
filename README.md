@@ -163,7 +163,7 @@ if response.code != 200
   print "Received non-OK status code from server."
 end
 
-# do something with the NT data
+# do something with the MNP data
 data = JSON.parse(response.body)
 ```
 
