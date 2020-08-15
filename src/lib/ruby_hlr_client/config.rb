@@ -1,6 +1,6 @@
 module HlrLookupsSDK
 
-  CLIENT_VERSION = '2.0.0'
+  CLIENT_VERSION = '2.0.1'
 
   CLIENT_NAME = 'ruby_hlr_client'
 
